@@ -1,5 +1,5 @@
 /*
- * ten file: user_test.c
+ * ten file: user_test02.c
  * tac gia : dat.a3cbq91@gmail.com
  * ngay tao: 9/12/2018
  * mo ta   : day la chuong trinh tren user space tuong tac voi vchar_device
@@ -30,13 +30,13 @@ void close_chardev(int fd) {
 }
 
 /* ham kiem tra entry point read cua vdy driver*/
-void read_data_char_dev(){
+void read_data_chardev(){
 
     int ret = 0;
     
     char user_buf[BUFFER_SIZE];
 
-    int fd = open_chardev;
+    int fd = open_chardev();
 
     ret = read(fd, user_buf, BUFFER_SIZE);
 
@@ -101,7 +101,7 @@ int main() {
                 fd = -1;
                 break;
             case 'r':
-                read_data_char_dev();
+                read_data_chardev();
                 break;
             case 'w':
                 write_data_chardev();

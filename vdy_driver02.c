@@ -39,7 +39,7 @@ typedef struct vdy_device{
 /***************khai bao cho device tu dong*********************************/
 	                                                                   
 	dev_t dev_num;
-	int firstminor;
+	unsigned int firstminor;
 
 /***************************************************************************/
 
@@ -67,7 +67,7 @@ int vdy_hw_init(vdy_device_t *hw)
 
 	hw -> control_regs = buf;
 	hw -> status_regs = hw -> control_regs + NUM_CTRL_REGS;
-	hw -> data_regs = hw -> status_regs + NUM_CTRL_REGS; 
+	hw -> data_regs = hw -> status_regs + NUM_STS_REGS; 
 
 
 	//khoi tao cac gia tri ban dau cho cac thanh ghi 
@@ -117,7 +117,7 @@ static ssize_t vdy_hw_read_data(vdy_device_t *hw, int start_reg, int num_regs, c
 		read_bytes = NUM_DATA_REGS - start_reg;
 	
 
-	//ghi du lieu tu kernel buffer vao cac thanh ghi du lieu 
+	//ghi du lieu vao kernel buffer tu cac thanh ghi du lieu 
 	memcpy(kbuf, hw -> data_regs + start_reg, read_bytes);
 
 	//cap nhat so lan doc tu cac thanh ghi du lieu
@@ -132,7 +132,6 @@ static ssize_t vdy_hw_read_data(vdy_device_t *hw, int start_reg, int num_regs, c
 	// tra ve so byte da doc duoc tu cac thanh ghi du lieu
 
 	return read_bytes;
-
 }
 
 /********************************************************************************************/
@@ -171,7 +170,7 @@ static ssize_t vdy_hw_write_data(vdy_device_t *hw, int start_reg, int num_regs, 
 		hw -> status_regs[DEVICE_STATUS_REG] |= STS_DATAREGS_OVERFLOW_BIT;
 	}
 
-	//doc du lieu tu kernel buffer vao cac thanh ghi du lieu 
+	//ghi du lieu tu kernel buffer vao cac thanh ghi du lieu 
 	memcpy(hw -> data_regs + start_reg, kbuf, write_bytes);
 
 	//cap nhat so lan ghi vao cac thanh ghi du lieu

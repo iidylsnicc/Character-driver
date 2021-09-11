@@ -1,2 +1,2 @@
 # Character-driver
-example for character driver 
+Example for character driver 
